@@ -1,7 +1,7 @@
 {
   "name": "react-style-prefix",
   "description": "transform style prop with vendor prefix by browser detection",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Ben P.P. Tung",
   "bugs": {
     "url": "https://github.com/benpptung/react-style-prefix/issues"
@@ -28,5 +28,13 @@
     "appstack": "appstack",
     "appwatch": "appwatch -b",
     "test": "npm run appwatch"
+  },
+  "dependencies": {
+    "transforms": "^0.1.2"
+  },
+  "browserify": {
+    "transform": [
+      "transforms"
+    ]
   }
 }
