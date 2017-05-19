@@ -19,7 +19,7 @@ exports.label = {
     width: '100%',
     // stick on a font-familly first
     fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
-    WebkitFontSmoothing: 'antialiased',
+    fontSmoothing: 'antialiased',
     cursor: 'text'
   };
 
@@ -62,7 +62,10 @@ exports.msg = {
     appearance: 'searchfield',
     backfaceVisibility: 'hidden',
     backgroundClip: 'border-box',
-    borderImage: 'url(http://www.example.com/bck.png)',
+    borderColor: 'orange',
+    borderStyle: 'solid',
+    borderWidth: '15px 15px 15px 15px',
+    borderImage: 'url(https://www.w3schools.com/jsref/border.png) 30 30 round',
     borderImageSlice: '30%',
     boxSizing: 'border-box',
     boxShadow: '60px -16px teal',
@@ -77,6 +80,6 @@ exports.msg = {
     transitionProperty: 'test1, animation4',
     transitionTimingFunction: 'step-end',
     perspective: '20px',
-    perspectiveOrigin: 'x-position',
+    perspectiveOrigin: '10% 10%',
     userSelect: 'all'
   };

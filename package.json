@@ -1,25 +1,32 @@
 {
   "name": "react-style-prefix",
-  "version": "0.2.0",
   "description": "transform style prop with vendor prefix by browser detection",
-  "main": "index.js",
-  "scripts": {
-    "test": "npm run appwatch",
-    "appstack": "appstack",
-    "appwatch": "appwatch -b"
+  "version": "1.0.0",
+  "author": "Ben P.P. Tung",
+  "bugs": {
+    "url": "https://github.com/benpptung/react-style-prefix/issues"
   },
+  "devDependencies": {
+    "appstackr": "^0.3.17",
+    "core-js": "^2.4.1",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.3.3"
+  },
+  "homepage": "https://github.com/benpptung/react-style-prefix#readme",
+  "keywords": [
+    "react",
+    "style",
+    "vendor prefix"
+  ],
+  "license": "MIT",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/benpptung/react-style-prefix.git"
   },
-  "keywords": [
-    "react", "style", "vendor prefix"
-  ],
-  "author": "Ben P.P. Tung",
-  "license": "MIT",
-  "devDependencies": {
-    "appstackr": "^0.3.15",
-    "expect.js": "^0.3.1",
-    "mocha": "^2.3.3"
+  "scripts": {
+    "appstack": "appstack",
+    "appwatch": "appwatch -b",
+    "test": "npm run appwatch"
   }
 }

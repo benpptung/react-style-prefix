@@ -1,8 +1,12 @@
 'use strict';
 
+const detectFakeProperty = require('./lib/detect-fake-property');
+
+exports = module.exports = prefixStyle;
+
 var el = document.createElement('div');
 
-var prefixes = ['', 'Webkit', 'ms', 'Moz', 'O'];
+var prefixes = exports.prefixes = ['', 'Webkit', 'ms', 'Moz', 'O'];
 
 var cache = {};
 
@@ -13,24 +17,53 @@ var prefix = function(vendor, prop) {
 
 var hasStylePropByVendor = function(vendor, prop) {
 
-  var p = prefix(vendor, prop);
+  var prefixed = prefix(vendor, prop);
 
   try {
-    return typeof el.style[p] !== 'undefined' ? p : false;
+    let found = typeof el.style[prefixed] !== 'undefined' ? prefixed : false;
+
+    if (found) found = detectFakeProperty(prefixed, prop, el);
+
+    // reduce vendor prefix to the current browser
+    if (found && vendor && prefixes.length > 2) {
+
+      for(let i = prefixes.length - 1; i >= 0; --i ) {
+        if (!~['', vendor].indexOf(prefixes[i])) {
+          prefixes.splice(i, 1);
+        }
+      }
+    }
+
+    return found;
   } catch (er) {
     return false;
   }
 };
 
-exports.styleProp = function(prop) {
+var normalize = function(prop) {
+  let match = /^(Webkit|ms|Moz|O)?(.+)$/.exec(prop);
+  if (match && match[2]) {
 
-  if (cache[prop] || cache[prop] === false) return cache[prop];
+    let _prop = match[2];
+    return _prop.charAt(0).toLowerCase() + _prop.slice(1);
+  }
+  return '';
+};
 
-  var p;
+var styleProp = exports.styleProp = function(prop) {
+
+  if (cache[prop]) return cache[prop];
+  if (cache[prop] === false) return; // return undefined instead
+
+  var found;
+  var prop_normalized = normalize(prop);
+
+  if (!prop_normalized) return;
+
   for(var i = 0, len = prefixes.length; i < len; ++i ) {
-    p = hasStylePropByVendor(prefixes[i], prop);
-    if (p) {
-      cache[prop] = p;
+    found = hasStylePropByVendor(prefixes[i], prop_normalized);
+    if (found) {
+      cache[prop] = found;
       return cache[prop];
     }
   }
@@ -41,48 +74,30 @@ exports.styleProp = function(prop) {
 /**
  *
  * @param {Object} styl
- * @param {Array} [plugins]
  * @returns {Object}
  */
-exports.style = function() {
+exports.style = prefixStyle;
+function prefixStyle() {
 
-  var args = Array.prototype.slice.call(arguments, 0);
-  if (args.length == 0 || args[0] !== Object(args[0])) {
-    throw new Error('react-style-prefix need at least one react style object, ' +
-      'but got zero');
-  }
-
-  if (Array.isArray(args[0])) {
-    throw  new Error('react-style-prefix need at least one react style object, ' +
-      'but got an array');
-  }
-
-  var plugins = args.slice(-1)[0];
-
-  if (Array.isArray(plugins)){
-    args = args.slice(0, -1);
-  }
-  else {
-    plugins = [];
-  }
+  var styles = Array.prototype.slice.call(arguments);
 
   var style, i, len;
 
-  style = args.filter(function(styl) {
-    return styl === Object(styl) ? styl : false
+  style = styles.filter(function(_style) {
+
+    return _style === Object(_style) ? _style : false
+
   }).reduce(function(pre, curr) {
+
     var props = Object.keys(curr);
     var prop;
     for(i = 0, len = props.length; i < len; ++i) {
-      prop  = exports.styleProp(props[i]);
+      prop  = styleProp(props[i]);
       if (prop) pre[prop] = curr[props[i]];
     }
     return pre;
+
   }, {});
 
-  for(i = 0, len = plugins.length; i < len; ++i) {
-    style = plugins[i](style);
-  }
-
   return style;
-};
+}
