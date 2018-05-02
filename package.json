@@ -1,7 +1,7 @@
 {
   "name": "react-style-prefix",
   "description": "transform style prop with vendor prefix by browser detection",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "author": "Ben P.P. Tung",
   "bugs": {
     "url": "https://github.com/benpptung/react-style-prefix/issues"
