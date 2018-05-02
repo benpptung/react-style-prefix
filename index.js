@@ -64,6 +64,7 @@ var styleProp = exports.styleProp = function(prop) {
   var prop_normalized = normalize(prop);
 
   if (!prop_normalized) return;
+  if (!el) return prop
 
   for(var i = 0, len = prefixes.length; i < len; ++i ) {
     found = hasStylePropByVendor(prefixes[i], prop_normalized);
