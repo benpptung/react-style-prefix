@@ -5,7 +5,7 @@ const detectFakeProperty = require('./lib/detect-fake-property');
 exports = module.exports = prefixStyle;
 
 var el = null
-if (document) {
+if (typeof document !== 'undefined') {
   el = document.createElement('div');
 }
 
