@@ -4,7 +4,10 @@ const detectFakeProperty = require('./lib/detect-fake-property');
 
 exports = module.exports = prefixStyle;
 
-var el = document.createElement('div');
+var el = null
+if (document) {
+  el = document.createElement('div');
+}
 
 var prefixes = exports.prefixes = ['', 'Webkit', 'ms', 'Moz', 'O'];
 
@@ -16,6 +19,8 @@ var prefix = function(vendor, prop) {
 };
 
 var hasStylePropByVendor = function(vendor, prop) {
+
+  if (!el) return false
 
   var prefixed = prefix(vendor, prop);
 
